@@ -21,12 +21,10 @@
                                 <tableRow identifier="tableRowController" id="UTf-ys-DsT" customClass="TableRowController">
                                     <group key="rootItem" width="1" height="46" alignment="left" id="qub-OB-iEY">
                                         <items>
-                                            <imageView width="40" alignment="left" verticalAlignment="center" id="XHK-9f-uK5"/>
-                                            <label width="63" alignment="left" verticalAlignment="center" text="Park" id="yvs-Kw-aFJ"/>
+                                            <label alignment="left" verticalAlignment="center" text="Park" id="yvs-Kw-aFJ"/>
                                         </items>
                                     </group>
                                     <connections>
-                                        <outlet property="interfaceImage" destination="XHK-9f-uK5" id="Iom-ZD-2l1"/>
                                         <outlet property="interfaceLabel" destination="yvs-Kw-aFJ" id="LMb-6C-DxV"/>
                                     </connections>
                                 </tableRow>

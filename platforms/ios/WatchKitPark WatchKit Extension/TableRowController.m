@@ -10,7 +10,6 @@
 
 @interface TableRowController()
 
-@property (weak, nonatomic) IBOutlet WKInterfaceImage *interfaceImage;
 @property (weak, nonatomic) IBOutlet WKInterfaceLabel *interfaceLabel;
 
 @end
