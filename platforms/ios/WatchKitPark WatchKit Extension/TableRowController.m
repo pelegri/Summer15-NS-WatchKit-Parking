@@ -16,4 +16,9 @@
 
 @implementation TableRowController
 
+- (void)table:(WKInterfaceTable *)table
+didSelectRowAtIndex:(NSInteger)rowIndex {
+
+}
+
 @end

@@ -1,72 +1,78 @@
-console.log("Hello World!");
 
 var InterfaceController = WKInterfaceController.extend({
   awakeWithContext: function(context) {
     this.super.awakeWithContext(context);
-    this._optionsTable.setNumberOfRowsWithRowType(2, "tableRowController");
-    var row1 = this._optionsTable.rowControllerAtIndex(0);
-    var row2 = this._optionsTable.rowControllerAtIndex(1);
-    row1._interfaceLabel.setText("Park");
-    //       row1._interfaceImage.setImage(UIImage.imageNamed("transport122.png"));
-    row2._interfaceLabel.setText("Time remaining");
-    //       row2._interfaceImage.setImage(UIImage.imageNamed("clock136.png"));
-    console.log("loaded?");
   },
   willActivate: function() {
     this.super.willActivate();
-    console.log("InterfaceController: willActivate");
   },
   didDeactivate: function() {
     this.super.didDeactivate();
-    console.log("InterfaceController: didDeactivate");
   },
-  optionsTable: function() {
-    return this._optionsTable;
+  parkButtonTap: function() {
+    this.pushControllerWithNameContext("ParkInterfaceController", null);
   },
-  "setOptionsTable:": function(value) {
-    this._optionsTable = value;
-    console.log("Set table: " + value);
+  timeButtonTap: function() {
+    this.pushControllerWithNameContext("TimeInterfaceController", null);
   }
 }, {
   name: "InterfaceController",
   exposedMethods: {
-    loadTable: {
+    parkButtonTap: {
       returns: interop.types.void,
       params: []
     },
-    optionsTable: {
-      returns: interop.types.id,
-      params: []
-    },
-    "setOptionsTable:": {
+    timeButtonTap: {
       returns: interop.types.void,
-      params: [interop.types.id]
+      params: []
     }
   }
 });
-
-var TableRowController = NSObject.extend({
-  //  interfaceImage: function() { return this._interfaceImage; },
-  interfaceLabel: function() {
-    return this._interfaceLabel;
+var time;
+var ParkInterfaceController = WKInterfaceController.extend({
+  awakeWithContext: function(context) {
+    this.super.awakeWithContext(context);
   },
-  //  "setInterfaceImage:": function(image) { this._interfaceImage = image; },
-  "setInterfaceLabel:": function(label) {
-    this._interfaceLabel = label;
+  willActivate: function() {
+    this.super.willActivate();
+  },
+  didDeactivate: function() {
+    this.super.didDeactivate();
+  },
+  sliderAction: function(value) {
+    time = value;
+    console.log("time set: " + value);
+    this._timeLabel.setText(value + "Minutes");
+  },
+  parkTapped: function() {
+    console.log("parktapped");
+    console.log("tapped at: " + time);
+  },
+  timeLabel: function() {
+    return this._timeLabel;
+  },
+  "setTimeLabel:": function(value) {
+    this._timeLabel = value;
   }
 }, {
-  name: "TableRowController",
+  name: "ParkInterfaceController",
   exposedMethods: {
-    //        interfaceImage: { returns: interop.types.id, params: [] },
-    interfaceLabel: {
+    sliderAction: {
+      returns: interop.types.void,
+      params: [interop.types.float]
+    },
+    parkTapped: {
+      returns: interop.types.void,
+      params: []
+    },
+    timeLabel: {
       returns: interop.types.id,
       params: []
     },
-    "setInterfaceLabel:": {
+    "setTimeLabel:": {
       returns: interop.types.void,
       params: [interop.types.id]
     }
-    //        "setInterfaceImage:": { returns: interop.types.void, params: [interop.types.id] }
   }
 });
 

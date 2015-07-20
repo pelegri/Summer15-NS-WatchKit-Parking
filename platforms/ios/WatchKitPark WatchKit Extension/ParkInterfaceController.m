@@ -1,24 +1,26 @@
 //
-//  InterfaceController.m
-//  WatchKitPark WatchKit Extension
+//  ParkInterfaceController.m
+//  WatchKitPark
 //
-//  Created by Antony Bello on 7/17/15.
+//  Created by Antony Bello on 7/20/15.
 //  Copyright (c) 2015 Telerik. All rights reserved.
 //
 
-#import "InterfaceController.h"
+#import "ParkInterfaceController.h"
 
+@interface ParkInterfaceController()
 
-@interface InterfaceController()
+@property (weak, nonatomic) IBOutlet WKInterfaceLabel *timeLabel;
+
+//@property (weak, nonatomic) IBOutlet WKInterfaceSlider *slider;
 
 @end
 
-
-@implementation InterfaceController
+@implementation ParkInterfaceController
 
 - (void)awakeWithContext:(id)context {
     [super awakeWithContext:context];
-
+    
     // Configure interface objects here.
 }
 
@@ -32,9 +34,11 @@
     [super didDeactivate];
 }
 
-- (IBAction)parkButtonTap {
+
+- (IBAction)sliderAction:(float)value {
 }
 
-- (IBAction)timeButtonTap {
+- (IBAction)parkTapped {
 }
+
 @end

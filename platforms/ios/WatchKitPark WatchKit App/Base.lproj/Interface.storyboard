@@ -11,40 +11,52 @@
                 <controller id="AgC-eL-Hgc" customClass="InterfaceController">
                     <items>
                         <label alignment="left" text="Welcome." id="BvZ-yF-KFT">
-                            <fontDescription key="font" type="system" weight="medium" pointSize="23"/>
+                            <fontDescription key="font" type="system" weight="medium" pointSize="21"/>
                         </label>
                         <label alignment="left" text="Select an action:" id="swE-0m-VR7">
-                            <fontDescription key="font" type="system" pointSize="15"/>
+                            <fontDescription key="font" type="system" pointSize="13"/>
                         </label>
-                        <table alignment="left" id="zV6-54-LHX">
-                            <items>
-                                <tableRow identifier="tableRowController" id="UTf-ys-DsT" customClass="TableRowController">
-                                    <group key="rootItem" width="1" height="46" alignment="left" id="qub-OB-iEY">
-                                        <items>
-                                            <label alignment="left" verticalAlignment="center" text="Park" id="yvs-Kw-aFJ"/>
-                                        </items>
-                                    </group>
-                                    <connections>
-                                        <outlet property="interfaceLabel" destination="yvs-Kw-aFJ" id="LMb-6C-DxV"/>
-                                    </connections>
-                                </tableRow>
-                            </items>
-                        </table>
+                        <button width="1" alignment="left" title="Park" id="EEL-ps-mDQ">
+                            <connections>
+                                <action selector="parkButtonTap" destination="AgC-eL-Hgc" id="Squ-5M-YQk"/>
+                            </connections>
+                        </button>
+                        <button width="1" alignment="left" title="Remaining Time" id="Ea7-gS-G7s">
+                            <connections>
+                                <action selector="timeButtonTap" destination="AgC-eL-Hgc" id="8Bi-hD-VXx"/>
+                            </connections>
+                        </button>
                     </items>
                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                    <connections>
-                        <outlet property="optionsTable" destination="zV6-54-LHX" id="zqK-nm-tCw"/>
-                    </connections>
                 </controller>
             </objects>
             <point key="canvasLocation" x="235" y="347"/>
         </scene>
-        <!--Second Page Interface Controller-->
-        <scene sceneID="yHF-2q-KD0">
+        <!--ParkInterfaceController-->
+        <scene sceneID="8cG-c2-QeT">
             <objects>
-                <controller identifier="Second Page Interface Controller" id="dZ3-A7-u3z"/>
+                <controller identifier="ParkInterfaceController" id="kEO-SK-goz" customClass="ParkInterfaceController">
+                    <items>
+                        <label alignment="center" verticalAlignment="center" text="20 Minutes" id="gcA-i9-1Aj"/>
+                        <slider width="1" alignment="center" verticalAlignment="center" accessibilityLabel="Minutes" continuous="YES" value="60" maximum="180" steps="8" id="BEF-8Z-RlS">
+                            <color key="color" red="0.23651974110000001" green="0.54704822190000002" blue="0.81960227269999997" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="setTime:" destination="kEO-SK-goz" id="ZMX-3H-7O4"/>
+                            </connections>
+                        </slider>
+                        <button width="1" alignment="left" verticalAlignment="center" title="Park" id="mh5-Tl-rZX">
+                            <connections>
+                                <action selector="parkTapped" destination="kEO-SK-goz" id="Zj3-Xm-z1b"/>
+                            </connections>
+                        </button>
+                    </items>
+                    <connections>
+                        <outlet property="slider" destination="BEF-8Z-RlS" id="Vx7-3h-d7U"/>
+                        <outlet property="timeLabel" destination="gcA-i9-1Aj" id="BoB-y8-7SH"/>
+                    </connections>
+                </controller>
             </objects>
-            <point key="canvasLocation" x="474" y="347"/>
+            <point key="canvasLocation" x="444" y="344"/>
         </scene>
         <!--Glance Interface Controller-->
         <scene sceneID="BOz-TT-tkC">
