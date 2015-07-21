@@ -43,7 +43,6 @@ var ParkInterfaceController = WKInterfaceController.extend({
   sliderValueChanged: function(value) {
     console.log("time set: " + value);
     this._timeLabel.setText(value + "Minutes");
-    // return value;
   },
   slider: function() {
     return this._slider;
@@ -67,7 +66,7 @@ var ParkInterfaceController = WKInterfaceController.extend({
   exposedMethods: {
     sliderValueChanged: {
       returns: interop.types.void,
-      params: [interop.types.void]
+      params: [interop.types.float]
     },
     parkTapped: {
       returns: interop.types.void,
@@ -91,6 +90,40 @@ var ParkInterfaceController = WKInterfaceController.extend({
     }
   }
 });
+
+var TimeInterfaceController = WKInterfaceController.extend({
+  awakeWithContext: function(context) {
+    this.super.awakeWithContext(context);
+  },
+  willActivate: function() {
+    this.super.willActivate();
+  },
+  didDeactivate: function() {
+    this.super.didDeactivate();
+  },
+  timeLabel: function() {
+    return this._timeLabel;
+  },
+  "setTimeLabel:": function(value) {
+    this._timeLabel = value;
+  }
+}, {
+  name: "TimeInterfaceController",
+  exposedMethods: {
+    timeLabel: {
+      returns: interop.types.id,
+      params: []
+    },
+    "setTimeLabel:": {
+      returns: interop.types.void,
+      params: [interop.types.id]
+    }
+  }
+});
+
+
+
+
 
 var NotificationController = WKUserNotificationInterfaceController.extend({
   willActivate: function() {
