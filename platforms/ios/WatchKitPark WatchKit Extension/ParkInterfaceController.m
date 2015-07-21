@@ -9,18 +9,15 @@
 #import "ParkInterfaceController.h"
 
 @interface ParkInterfaceController()
-
 @property (weak, nonatomic) IBOutlet WKInterfaceLabel *timeLabel;
-
-//@property (weak, nonatomic) IBOutlet WKInterfaceSlider *slider;
-
+@property (weak, nonatomic) IBOutlet WKInterfaceSlider *slider;
 @end
 
 @implementation ParkInterfaceController
 
 - (void)awakeWithContext:(id)context {
     [super awakeWithContext:context];
-    
+
     // Configure interface objects here.
 }
 
@@ -34,8 +31,7 @@
     [super didDeactivate];
 }
 
-
-- (IBAction)sliderAction:(float)value {
+- (IBAction)sliderValueChanged:(float)value {
 }
 
 - (IBAction)parkTapped {
