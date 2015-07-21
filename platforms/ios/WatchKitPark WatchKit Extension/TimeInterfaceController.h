@@ -1,5 +1,5 @@
 //
-//  WKInterfaceController+TimeInterfaceController.h
+//  TimeInterfaceController.h
 //  WatchKitPark
 //
 //  Created by Antony Bello on 7/21/15.
@@ -7,7 +7,8 @@
 //
 
 #import <WatchKit/WatchKit.h>
+#import <Foundation/Foundation.h>
 
-@interface WKInterfaceController (TimeInterfaceController)
+@interface TimeInterfaceController: WKInterfaceController
 
 @end

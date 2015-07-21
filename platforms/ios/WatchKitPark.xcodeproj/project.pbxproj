@@ -19,6 +19,7 @@
 		38A7DD701B597C4F00C77619 /* NativeScript.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 38A7DD6C1B597C4300C77619 /* NativeScript.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		38A7DD741B597C7600C77619 /* app in Resources */ = {isa = PBXBuildFile; fileRef = 38A7DD731B597C7600C77619 /* app */; };
 		38A7DD761B597DBE00C77619 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 38A7DD751B597DBE00C77619 /* main.m */; };
+		38A7DD841B5EB84C00C77619 /* TimeInterfaceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38A7DD831B5EB84C00C77619 /* TimeInterfaceController.m */; };
 		858B83F318CA22B800AB12DE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 858B833D18CA111C00AB12DE /* main.m */; };
 		858B842918CA22B800AB12DE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 858B833118CA111C00AB12DE /* Foundation.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		858B842A18CA22B800AB12DE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 858B833518CA111C00AB12DE /* UIKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
@@ -125,6 +126,8 @@
 		38A7DD751B597DBE00C77619 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		38A7DD791B5D775200C77619 /* ParkInterfaceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParkInterfaceController.h; sourceTree = "<group>"; };
 		38A7DD7A1B5D775200C77619 /* ParkInterfaceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParkInterfaceController.m; sourceTree = "<group>"; };
+		38A7DD821B5EB84C00C77619 /* TimeInterfaceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimeInterfaceController.h; sourceTree = "<group>"; };
+		38A7DD831B5EB84C00C77619 /* TimeInterfaceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimeInterfaceController.m; sourceTree = "<group>"; };
 		858B832E18CA111C00AB12DE /* WatchKitPark.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WatchKitPark.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		858B833118CA111C00AB12DE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		858B833518CA111C00AB12DE /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -195,6 +198,8 @@
 				38A7DD451B5962C800C77619 /* InterfaceController.m */,
 				38A7DD791B5D775200C77619 /* ParkInterfaceController.h */,
 				38A7DD7A1B5D775200C77619 /* ParkInterfaceController.m */,
+				38A7DD821B5EB84C00C77619 /* TimeInterfaceController.h */,
+				38A7DD831B5EB84C00C77619 /* TimeInterfaceController.m */,
 				38A7DD4A1B5962C800C77619 /* GlanceController.h */,
 				38A7DD471B5962C800C77619 /* NotificationController.h */,
 				38A7DD481B5962C800C77619 /* NotificationController.m */,
@@ -525,6 +530,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				38A7DD841B5EB84C00C77619 /* TimeInterfaceController.m in Sources */,
 				38A7DD761B597DBE00C77619 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

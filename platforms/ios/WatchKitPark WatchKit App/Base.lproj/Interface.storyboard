@@ -19,11 +19,13 @@
                         <button width="1" alignment="left" title="Park" id="EEL-ps-mDQ">
                             <connections>
                                 <action selector="parkButtonTap" destination="AgC-eL-Hgc" id="Squ-5M-YQk"/>
+                                <segue destination="kEO-SK-goz" kind="push" id="x2g-uo-TUj"/>
                             </connections>
                         </button>
                         <button width="1" alignment="left" title="Remaining Time" id="Ea7-gS-G7s">
                             <connections>
                                 <action selector="timeButtonTap" destination="AgC-eL-Hgc" id="8Bi-hD-VXx"/>
+                                <segue destination="K63-iM-mZB" kind="push" id="Plx-5B-rto"/>
                             </connections>
                         </button>
                     </items>
@@ -58,6 +60,22 @@
             </objects>
             <point key="canvasLocation" x="444" y="344"/>
         </scene>
+        <!--TimeInterfaceController-->
+        <scene sceneID="hVT-HZ-2gw">
+            <objects>
+                <controller identifier="TimeInterfaceController" id="K63-iM-mZB" customClass="TimeInterfaceController">
+                    <items>
+                        <label width="136" alignment="center" verticalAlignment="center" text="You have 20 minutes remaining." textAlignment="center" numberOfLines="3" id="Pds-sh-P17">
+                            <fontDescription key="font" type="system" pointSize="16"/>
+                        </label>
+                    </items>
+                    <connections>
+                        <outlet property="timeLabel" destination="Pds-sh-P17" id="GzZ-xj-OZE"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="341" y="611"/>
+        </scene>
         <!--Glance Interface Controller-->
         <scene sceneID="BOz-TT-tkC">
             <objects>
@@ -69,7 +87,7 @@
                     <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="14"/>
                 </glanceController>
             </objects>
-            <point key="canvasLocation" x="235" y="672"/>
+            <point key="canvasLocation" x="137" y="943"/>
         </scene>
         <!--Static Notification Interface Controller-->
         <scene sceneID="AEw-b0-oYE">
