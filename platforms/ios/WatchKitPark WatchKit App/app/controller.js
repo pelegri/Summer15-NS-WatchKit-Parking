@@ -55,27 +55,35 @@ var ParkInterfaceController = WKInterfaceController.extend({
   },
   parkTapped: function() {
 
-    // var url = NSURL.URLWithString("http://api.openweathermap.org/data/2.5/weather?q=Cupertino,usa");
+    var url = NSURL.URLWithString("")
+
     console.log("tapped at: " + parkingDuration);
 
     var date = NSDate.alloc().init();
+    var dateFormatter = NSDateFormatter.alloc().init();
+    dateFormatter.dateFormat = "HH:mm";
+    var dateString = dateFormatter.stringFromDate(date);
+    console.log(dateString);
     var response, error = null;
-    var url = NSURL.URLWithString("key here.");
-    var requestData = NSDictionary.alloc().initWithObjectsAndKeys(uuid, "userID", date, "timeParked", parkingDuration, "parkingDuration", null);
+    var uuidString = uuid.UUIDString;
 
-    var requestArray = NSMutableArray.alloc().init();
-    requestArray.addObject(requestData);
-
-    var finalRequestBody = NSJSONSerialization.JSONObjectWithDataOptionsError(requestArray, NSJSONWritingPrettyPrinted, error);
-
+    var requestData = NSMutableDictionary.alloc().init();
+    requestData.setObjectForKey(uuidString, "userID");
+    requestData.setObjectForKey(dateString, "timeParked");
+    requestData.setObjectForKey(parkingDuration, "parkingDuration");
+    var jsonData = NSJSONSerialization.dataWithJSONObjectOptionsError(requestData, NSJSONWritingPrettyPrinted, error);
+    var jsonString = NSString.alloc().initWithDataEncoding(jsonData, NSUTF8StringEncoding);
+    console.log(jsonString);
     var request = NSURLRequest.requestWithURL(url);
-    request.setHTTPBody(finalRequestBody);
+    request.setHTTPBody(jsonData);
+    request.addValueForHTTPHeaderField(123,"auth");
     request.setHTTPMethod("POST");
-
+    request.setValueForHTTPHeaderField("application/json","content-type");
+    console.log("request: " + request);
     var responseData = NSURLConnection.sendSynchronousRequestReturningResponseError(request, response, error);
-    var json = NSJSONSerialization.JSONObjectWithDataOptionsError(data, null, error);
+    var serializedResponse = NSJSONSerialization.JSONObjectWithDataOptionsError(data, null, error);
     console.log(responseData);
-    console.log(json);
+    console.log(serializedResponse);
   },
   timeLabel: function() {
     return this._timeLabel;
