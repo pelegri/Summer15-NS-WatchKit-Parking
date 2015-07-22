@@ -1,3 +1,4 @@
+var uuid = NSUUID.alloc().init();
 
 var InterfaceController = WKInterfaceController.extend({
   awakeWithContext: function(context) {
@@ -28,7 +29,7 @@ var InterfaceController = WKInterfaceController.extend({
     }
   }
 });
-var time;
+var parkingDuration;
 var ParkInterfaceController = WKInterfaceController.extend({
   awakeWithContext: function(context) {
     this.super.awakeWithContext(context);
@@ -40,8 +41,9 @@ var ParkInterfaceController = WKInterfaceController.extend({
   didDeactivate: function() {
     this.super.didDeactivate();
   },
-  sliderValueChanged: function(value) {
-    console.log("time set: " + value);
+  "sliderValueChanged:": function(value) {
+    parkingDuration = value;
+    console.log("time: " + parkingDuration);
     this._timeLabel.setText(value + "Minutes");
   },
   slider: function() {
@@ -52,8 +54,28 @@ var ParkInterfaceController = WKInterfaceController.extend({
     this._slider = value;
   },
   parkTapped: function() {
-    console.log("parktapped");
-    console.log("tapped at: " + time);
+
+    // var url = NSURL.URLWithString("http://api.openweathermap.org/data/2.5/weather?q=Cupertino,usa");
+    console.log("tapped at: " + parkingDuration);
+
+    var date = NSDate.alloc().init();
+    var response, error = null;
+    var url = NSURL.URLWithString("key here.");
+    var requestData = NSDictionary.alloc().initWithObjectsAndKeys(uuid, "userID", date, "timeParked", parkingDuration, "parkingDuration", null);
+
+    var requestArray = NSMutableArray.alloc().init();
+    requestArray.addObject(requestData);
+
+    var finalRequestBody = NSJSONSerialization.JSONObjectWithDataOptionsError(requestArray, NSJSONWritingPrettyPrinted, error);
+
+    var request = NSURLRequest.requestWithURL(url);
+    request.setHTTPBody(finalRequestBody);
+    request.setHTTPMethod("POST");
+
+    var responseData = NSURLConnection.sendSynchronousRequestReturningResponseError(request, response, error);
+    var json = NSJSONSerialization.JSONObjectWithDataOptionsError(data, null, error);
+    console.log(responseData);
+    console.log(json);
   },
   timeLabel: function() {
     return this._timeLabel;
@@ -64,7 +86,7 @@ var ParkInterfaceController = WKInterfaceController.extend({
 }, {
   name: "ParkInterfaceController",
   exposedMethods: {
-    sliderValueChanged: {
+    "sliderValueChanged:": {
       returns: interop.types.void,
       params: [interop.types.float]
     },

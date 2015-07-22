@@ -39,7 +39,7 @@
             <objects>
                 <controller identifier="ParkInterfaceController" id="kEO-SK-goz" customClass="ParkInterfaceController">
                     <items>
-                        <label alignment="center" verticalAlignment="center" text="20 Minutes" id="gcA-i9-1Aj"/>
+                        <label alignment="center" verticalAlignment="center" text="60 Minutes" id="gcA-i9-1Aj"/>
                         <slider width="1" alignment="center" verticalAlignment="center" accessibilityLabel="Minutes" continuous="YES" value="60" maximum="180" steps="15" id="BEF-8Z-RlS">
                             <color key="color" red="0.23651974110000001" green="0.54704822190000002" blue="0.81960227269999997" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
@@ -65,7 +65,7 @@
             <objects>
                 <controller identifier="TimeInterfaceController" id="K63-iM-mZB" customClass="TimeInterfaceController">
                     <items>
-                        <label width="136" alignment="center" verticalAlignment="center" text="You have 20 minutes remaining." textAlignment="center" numberOfLines="3" id="Pds-sh-P17">
+                        <label width="136" alignment="center" verticalAlignment="center" text="You have 0 minutes remaining." textAlignment="center" numberOfLines="3" id="Pds-sh-P17">
                             <fontDescription key="font" type="system" pointSize="16"/>
                         </label>
                     </items>

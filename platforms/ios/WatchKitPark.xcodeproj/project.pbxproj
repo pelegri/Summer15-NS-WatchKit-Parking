@@ -19,7 +19,6 @@
 		38A7DD701B597C4F00C77619 /* NativeScript.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 38A7DD6C1B597C4300C77619 /* NativeScript.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		38A7DD741B597C7600C77619 /* app in Resources */ = {isa = PBXBuildFile; fileRef = 38A7DD731B597C7600C77619 /* app */; };
 		38A7DD761B597DBE00C77619 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 38A7DD751B597DBE00C77619 /* main.m */; };
-		38A7DD841B5EB84C00C77619 /* TimeInterfaceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38A7DD831B5EB84C00C77619 /* TimeInterfaceController.m */; };
 		858B83F318CA22B800AB12DE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 858B833D18CA111C00AB12DE /* main.m */; };
 		858B842918CA22B800AB12DE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 858B833118CA111C00AB12DE /* Foundation.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		858B842A18CA22B800AB12DE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 858B833518CA111C00AB12DE /* UIKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
@@ -530,7 +529,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				38A7DD841B5EB84C00C77619 /* TimeInterfaceController.m in Sources */,
 				38A7DD761B597DBE00C77619 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
