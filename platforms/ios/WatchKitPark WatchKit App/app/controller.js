@@ -33,7 +33,6 @@ var parkingDuration;
 var ParkInterfaceController = WKInterfaceController.extend({
   awakeWithContext: function(context) {
     this.super.awakeWithContext(context);
-    console.log("park controller #summoned");
   },
   willActivate: function() {
     this.super.willActivate();
@@ -43,29 +42,25 @@ var ParkInterfaceController = WKInterfaceController.extend({
   },
   "sliderValueChanged:": function(value) {
     parkingDuration = value;
-    console.log("time: " + parkingDuration);
     this._timeLabel.setText(value + "Minutes");
   },
   slider: function() {
     return this._slider;
   },
   "setSlider:": function(value) {
-    console.log("slider set");
     this._slider = value;
   },
   parkTapped: function() {
-
-    var url = NSURL.URLWithString("")
-
     console.log("tapped at: " + parkingDuration);
+    var url  = NSURL.URLWithString("");
 
     var date = NSDate.alloc().init();
     var dateFormatter = NSDateFormatter.alloc().init();
-    dateFormatter.dateFormat = "HH:mm";
+    dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
     var dateString = dateFormatter.stringFromDate(date);
     console.log(dateString);
-    var response, error = null;
     var uuidString = uuid.UUIDString;
+    var response, error = null;
 
     var requestData = NSMutableDictionary.alloc().init();
     requestData.setObjectForKey(uuidString, "userID");
@@ -73,17 +68,28 @@ var ParkInterfaceController = WKInterfaceController.extend({
     requestData.setObjectForKey(parkingDuration, "parkingDuration");
     var jsonData = NSJSONSerialization.dataWithJSONObjectOptionsError(requestData, NSJSONWritingPrettyPrinted, error);
     var jsonString = NSString.alloc().initWithDataEncoding(jsonData, NSUTF8StringEncoding);
-    console.log(jsonString);
-    var request = NSURLRequest.requestWithURL(url);
-    request.setHTTPBody(jsonData);
-    request.addValueForHTTPHeaderField(123,"auth");
-    request.setHTTPMethod("POST");
-    request.setValueForHTTPHeaderField("application/json","content-type");
+
+    var request = NSMutableURLRequest.requestWithURL(url);
+    request.HTTPMethod = "POST";
+    request.setValueForHTTPHeaderField("123", "auth");
+    request.setValueForHTTPHeaderField("application/json", "content-type");
+    request.postBody = jsonData;
+
     console.log("request: " + request);
-    var responseData = NSURLConnection.sendSynchronousRequestReturningResponseError(request, response, error);
-    var serializedResponse = NSJSONSerialization.JSONObjectWithDataOptionsError(data, null, error);
-    console.log(responseData);
-    console.log(serializedResponse);
+
+    var sessionConfig = NSURLSessionConfiguration.defaultSessionConfiguration();
+    var queue = NSOperationQueue.mainQueue();
+    var session = NSURLSession.sessionWithConfigurationDelegateDelegateQueue(sessionConfig, null, queue);
+
+    var dataTask = session.dataTaskWithRequestCompletionHandler(request, function(data, response, error) {
+      if (error) {
+        console.log(error);
+      } else {
+        var serializedData = NSJSONSerialization.JSONObjectWithDataOptionsError(data, null, error);
+      }
+    });
+    dataTask.resume();
+
   },
   timeLabel: function() {
     return this._timeLabel;
