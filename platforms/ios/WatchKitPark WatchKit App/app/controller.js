@@ -1,4 +1,5 @@
 var uuid = NSUUID.alloc().init();
+var uuidString = uuid.UUIDString;
 
 var InterfaceController = WKInterfaceController.extend({
   awakeWithContext: function(context) {
@@ -58,8 +59,6 @@ var ParkInterfaceController = WKInterfaceController.extend({
     var dateFormatter = NSDateFormatter.alloc().init();
     dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
     var dateString = dateFormatter.stringFromDate(date);
-    console.log(dateString);
-    var uuidString = uuid.UUIDString;
     var response, error = null;
 
     var requestData = NSMutableDictionary.alloc().init();
@@ -69,13 +68,17 @@ var ParkInterfaceController = WKInterfaceController.extend({
     var jsonData = NSJSONSerialization.dataWithJSONObjectOptionsError(requestData, NSJSONWritingPrettyPrinted, error);
     var jsonString = NSString.alloc().initWithDataEncoding(jsonData, NSUTF8StringEncoding);
 
+
+    console.log(jsonString);
+
     var request = NSMutableURLRequest.requestWithURL(url);
     request.HTTPMethod = "POST";
     request.setValueForHTTPHeaderField("123", "auth");
     request.setValueForHTTPHeaderField("application/json", "content-type");
+    request.setValueForHTTPHeaderField(uuidString, "userID");
+    request.setValueForHTTPHeaderField(dateString, "timeParked");
+    request.setValueForHTTPHeaderField(parkingDuration.toString(), "parkingDuration");
     request.postBody = jsonData;
-
-    console.log("request: " + request);
 
     var sessionConfig = NSURLSessionConfiguration.defaultSessionConfiguration();
     var queue = NSOperationQueue.mainQueue();
@@ -85,7 +88,8 @@ var ParkInterfaceController = WKInterfaceController.extend({
       if (error) {
         console.log(error);
       } else {
-        var serializedData = NSJSONSerialization.JSONObjectWithDataOptionsError(data, null, error);
+        var string = NSString.alloc().initWithDataEncoding(data, NSUTF8StringEncoding);
+        console.log(string);
       }
     });
     dataTask.resume();
@@ -130,6 +134,29 @@ var ParkInterfaceController = WKInterfaceController.extend({
 var TimeInterfaceController = WKInterfaceController.extend({
   awakeWithContext: function(context) {
     this.super.awakeWithContext(context);
+    var url  = NSURL.URLWithString("");
+    var requestData = NSMutableDictionary.alloc().init();
+    requestData.setObjectForKey(uuidString, "userID");
+
+    var response, error = null;
+    var jsonData = NSJSONSerialization.dataWithJSONObjectOptionsError(requestData, NSJSONWritingPrettyPrinted, error);
+    var request = NSMutableURLRequest.requestWithURL(url);
+    request.HTTPMethod = "POST";
+    request.setValueForHTTPHeaderField(uuidString, "userID");
+    request.setValueForHTTPHeaderField("123", "auth");
+
+    var sessionConfig = NSURLSessionConfiguration.defaultSessionConfiguration();
+    var queue = NSOperationQueue.mainQueue();
+    var session = NSURLSession.sessionWithConfigurationDelegateDelegateQueue(sessionConfig, null, queue);
+
+    var dataTask = session.dataTaskWithRequestCompletionHandler(request, function(data, response, error) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log(data);
+      }
+    });
+    dataTask.resume();
   },
   willActivate: function() {
     this.super.willActivate();
