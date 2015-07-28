@@ -19,13 +19,11 @@
                         <button width="1" alignment="left" title="Park" id="EEL-ps-mDQ">
                             <connections>
                                 <action selector="parkButtonTap" destination="AgC-eL-Hgc" id="Squ-5M-YQk"/>
-                                <segue destination="kEO-SK-goz" kind="push" id="x2g-uo-TUj"/>
                             </connections>
                         </button>
                         <button width="1" alignment="left" title="Remaining Time" id="Ea7-gS-G7s">
                             <connections>
                                 <action selector="timeButtonTap" destination="AgC-eL-Hgc" id="8Bi-hD-VXx"/>
-                                <segue destination="K63-iM-mZB" kind="push" id="Plx-5B-rto"/>
                             </connections>
                         </button>
                     </items>
@@ -39,8 +37,8 @@
             <objects>
                 <controller identifier="ParkInterfaceController" id="kEO-SK-goz" customClass="ParkInterfaceController">
                     <items>
-                        <label alignment="center" verticalAlignment="center" text="60 Minutes" id="gcA-i9-1Aj"/>
-                        <slider width="1" alignment="center" verticalAlignment="center" accessibilityLabel="Minutes" continuous="YES" value="60" maximum="180" steps="15" id="BEF-8Z-RlS">
+                        <label alignment="center" verticalAlignment="center" text="60 Minutes" numberOfLines="3" id="gcA-i9-1Aj"/>
+                        <slider width="1" alignment="center" verticalAlignment="center" accessibilityLabel="Minutes" continuous="YES" value="60" maximum="180" steps="12" id="BEF-8Z-RlS">
                             <color key="color" red="0.23651974110000001" green="0.54704822190000002" blue="0.81960227269999997" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <action selector="sliderValueChanged:" destination="kEO-SK-goz" id="dff-nm-QNi"/>
@@ -54,7 +52,7 @@
                     </items>
                     <connections>
                         <outlet property="slider" destination="BEF-8Z-RlS" id="CiJ-eG-amz"/>
-                        <outlet property="timeLabel" destination="gcA-i9-1Aj" id="BoB-y8-7SH"/>
+                        <outlet property="sliderLabel" destination="gcA-i9-1Aj" id="cyv-Rn-L6y"/>
                     </connections>
                 </controller>
             </objects>
@@ -65,12 +63,12 @@
             <objects>
                 <controller identifier="TimeInterfaceController" id="K63-iM-mZB" customClass="TimeInterfaceController">
                     <items>
-                        <label width="136" alignment="center" verticalAlignment="center" text="You have 0 minutes remaining." textAlignment="center" numberOfLines="3" id="Pds-sh-P17">
+                        <label width="136" alignment="center" verticalAlignment="center" text="Loading.." textAlignment="center" numberOfLines="3" id="Pds-sh-P17">
                             <fontDescription key="font" type="system" pointSize="16"/>
                         </label>
                     </items>
                     <connections>
-                        <outlet property="timeLabel" destination="Pds-sh-P17" id="GzZ-xj-OZE"/>
+                        <outlet property="timeLabel" destination="Pds-sh-P17" id="q71-fp-ahz"/>
                     </connections>
                 </controller>
             </objects>

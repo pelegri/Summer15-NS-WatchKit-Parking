@@ -1,5 +1,17 @@
-var uuid = NSUUID.alloc().init();
-var uuidString = uuid.UUIDString;
+/*
+ *
+ *  WatchKit Parker
+ *  A NativeScript WatchKit application that keeps track of your parking time.
+ *  Antony Bello, Summer 2015.
+ *
+ */
+
+var SERVER_URL = ''; // <== ENTER SERVER URL HERE
+
+var minutesRemaining, parkingDuration;
+var userDefaults = NSUserDefaults.standardUserDefaults();
+setUUIDString(userDefaults);
+var uuidString = getUUIDString(userDefaults);
 
 var InterfaceController = WKInterfaceController.extend({
   awakeWithContext: function(context) {
@@ -11,11 +23,13 @@ var InterfaceController = WKInterfaceController.extend({
   didDeactivate: function() {
     this.super.didDeactivate();
   },
+  timeButtonTap: function() {
+    var controller = this;
+    var requestParams = setURLParamsWithEnding('getinfo');
+    makeRequest('getinfo', requestParams, controller);
+  },
   parkButtonTap: function() {
     this.pushControllerWithNameContext("ParkInterfaceController", null);
-  },
-  timeButtonTap: function() {
-    this.pushControllerWithNameContext("TimeInterfaceController", null);
   }
 }, {
   name: "InterfaceController",
@@ -30,10 +44,11 @@ var InterfaceController = WKInterfaceController.extend({
     }
   }
 });
-var parkingDuration;
+
 var ParkInterfaceController = WKInterfaceController.extend({
   awakeWithContext: function(context) {
     this.super.awakeWithContext(context);
+    parkingDuration = this._slider.value;
   },
   willActivate: function() {
     this.super.willActivate();
@@ -43,7 +58,7 @@ var ParkInterfaceController = WKInterfaceController.extend({
   },
   "sliderValueChanged:": function(value) {
     parkingDuration = value;
-    this._timeLabel.setText(value + "Minutes");
+    this._sliderLabel.setText(value + " Minutes");
   },
   slider: function() {
     return this._slider;
@@ -52,54 +67,18 @@ var ParkInterfaceController = WKInterfaceController.extend({
     this._slider = value;
   },
   parkTapped: function() {
-    console.log("tapped at: " + parkingDuration);
-    var url  = NSURL.URLWithString("");
-
-    var date = NSDate.alloc().init();
-    var dateFormatter = NSDateFormatter.alloc().init();
-    dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
-    var dateString = dateFormatter.stringFromDate(date);
-    var response, error = null;
-
-    var requestData = NSMutableDictionary.alloc().init();
-    requestData.setObjectForKey(uuidString, "userID");
-    requestData.setObjectForKey(dateString, "timeParked");
-    requestData.setObjectForKey(parkingDuration, "parkingDuration");
-    var jsonData = NSJSONSerialization.dataWithJSONObjectOptionsError(requestData, NSJSONWritingPrettyPrinted, error);
-    var jsonString = NSString.alloc().initWithDataEncoding(jsonData, NSUTF8StringEncoding);
-
-
-    console.log(jsonString);
-
-    var request = NSMutableURLRequest.requestWithURL(url);
-    request.HTTPMethod = "POST";
-    request.setValueForHTTPHeaderField("123", "auth");
-    request.setValueForHTTPHeaderField("application/json", "content-type");
-    request.setValueForHTTPHeaderField(uuidString, "userID");
-    request.setValueForHTTPHeaderField(dateString, "timeParked");
-    request.setValueForHTTPHeaderField(parkingDuration.toString(), "parkingDuration");
-    request.postBody = jsonData;
-
-    var sessionConfig = NSURLSessionConfiguration.defaultSessionConfiguration();
-    var queue = NSOperationQueue.mainQueue();
-    var session = NSURLSession.sessionWithConfigurationDelegateDelegateQueue(sessionConfig, null, queue);
-
-    var dataTask = session.dataTaskWithRequestCompletionHandler(request, function(data, response, error) {
-      if (error) {
-        console.log(error);
-      } else {
-        var string = NSString.alloc().initWithDataEncoding(data, NSUTF8StringEncoding);
-        console.log(string);
-      }
-    });
-    dataTask.resume();
-
+    var controller = this;
+    var requestParams = setURLParamsWithEnding('adduser');
+    if (parkingDuration) {
+      requestParams.setValueForHTTPHeaderField(parkingDuration.toString(), "parkingDuration");
+      makeRequest('adduser', requestParams, controller);
+    }
   },
-  timeLabel: function() {
-    return this._timeLabel;
+  sliderLabel: function() {
+    return this._sliderLabel;
   },
-  "setTimeLabel:": function(value) {
-    this._timeLabel = value;
+  "setSliderLabel:": function(value) {
+    this._sliderLabel = value;
   }
 }, {
   name: "ParkInterfaceController",
@@ -112,7 +91,7 @@ var ParkInterfaceController = WKInterfaceController.extend({
       returns: interop.types.void,
       params: []
     },
-    timeLabel: {
+    sliderLabel: {
       returns: interop.types.id,
       params: []
     },
@@ -124,7 +103,7 @@ var ParkInterfaceController = WKInterfaceController.extend({
       returns: interop.types.void,
       params: [interop.types.id]
     },
-    "setTimeLabel:": {
+    "setSliderLabel:": {
       returns: interop.types.void,
       params: [interop.types.id]
     }
@@ -134,29 +113,11 @@ var ParkInterfaceController = WKInterfaceController.extend({
 var TimeInterfaceController = WKInterfaceController.extend({
   awakeWithContext: function(context) {
     this.super.awakeWithContext(context);
-    var url  = NSURL.URLWithString("");
-    var requestData = NSMutableDictionary.alloc().init();
-    requestData.setObjectForKey(uuidString, "userID");
-
-    var response, error = null;
-    var jsonData = NSJSONSerialization.dataWithJSONObjectOptionsError(requestData, NSJSONWritingPrettyPrinted, error);
-    var request = NSMutableURLRequest.requestWithURL(url);
-    request.HTTPMethod = "POST";
-    request.setValueForHTTPHeaderField(uuidString, "userID");
-    request.setValueForHTTPHeaderField("123", "auth");
-
-    var sessionConfig = NSURLSessionConfiguration.defaultSessionConfiguration();
-    var queue = NSOperationQueue.mainQueue();
-    var session = NSURLSession.sessionWithConfigurationDelegateDelegateQueue(sessionConfig, null, queue);
-
-    var dataTask = session.dataTaskWithRequestCompletionHandler(request, function(data, response, error) {
-      if (error) {
-        console.log(error);
-      } else {
-        console.log(data);
-      }
-    });
-    dataTask.resume();
+    if (minutesRemaining) {
+      this._timeLabel.setText("You have " + minutesRemaining + " minutes remaining.");
+    } else {
+      this._timeLabel.setText("Park first.")
+    }
   },
   willActivate: function() {
     this.super.willActivate();
@@ -183,10 +144,6 @@ var TimeInterfaceController = WKInterfaceController.extend({
     }
   }
 });
-
-
-
-
 
 var NotificationController = WKUserNotificationInterfaceController.extend({
   willActivate: function() {
@@ -218,4 +175,69 @@ var GlanceController = WKInterfaceController.extend({
   name: "GlanceController"
 });
 
-console.log("declared controllers");
+
+function setURLParamsWithEnding(ending) {
+  var response, error;
+  var requestData = NSMutableDictionary.alloc().init();
+  requestData.setObjectForKey(uuidString, "userID");
+  var jsonData = NSJSONSerialization.dataWithJSONObjectOptionsError(requestData, NSJSONWritingPrettyPrinted, error);
+  var dateString = initializeDateString();
+  var url = NSURL.URLWithString(SERVER_URL + '/'+ ending);
+  var request = NSMutableURLRequest.requestWithURL(url);
+  request.HTTPMethod = "POST";
+  request.setValueForHTTPHeaderField(uuidString, "userID");
+  request.setValueForHTTPHeaderField("application/json", "content-type");
+  request.setValueForHTTPHeaderField("123", "auth");
+  request.setValueForHTTPHeaderField(dateString, "timeParked");
+  request.postBody = jsonData;
+  return request;
+}
+
+function makeRequest(ending, requestParams, controller) {
+  var response, error;
+  var sessionConfig = NSURLSessionConfiguration.defaultSessionConfiguration();
+  var queue = NSOperationQueue.mainQueue();
+  var session = NSURLSession.sessionWithConfigurationDelegateDelegateQueue(sessionConfig, null, queue);
+  var dataTask = session.dataTaskWithRequestCompletionHandler(requestParams, function(data, response, error) {
+    if (error) {
+      console.log(error);
+      return;
+    } else {
+      handleResponseBasedOnEnding(ending, data, controller);
+    }
+  });
+  dataTask.resume();
+}
+
+function handleResponseBasedOnEnding(ending, data, controller) {
+  if(ending == "getinfo") {
+    minutesRemaining = NSString.alloc().initWithDataEncoding(data, NSUTF8StringEncoding);
+    controller.pushControllerWithNameContext("TimeInterfaceController", null);
+  } else if (ending == "adduser") {
+    minutesRemaining = parkingDuration;
+    controller._sliderLabel.setText("Time set successfully.");
+  } else {
+    console.log("What the hell happened: " + ending);
+  }
+}
+
+function initializeDateString() {
+  var date = NSDate.alloc().init();
+  var dateFormatter = NSDateFormatter.alloc().init();
+  dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+  return dateFormatter.stringFromDate(date);
+}
+
+function setUUIDString(userDefaults) {
+  if (!userDefaults.stringForKey("AUTH")) {
+    var uuidRef = CFUUIDCreate(kCFAllocatorDefault);
+    var uuidStringRef = CFUUIDCreateString(kCFAllocatorDefault, uuidRef);
+    CFRelease(uuidRef);
+    userDefaults.setObjectForKey(uuidStringRef, "AUTH");
+    userDefaults.synchronize();
+  }
+}
+
+function getUUIDString(userDefaults) {
+  return userDefaults.stringForKey("AUTH");
+}

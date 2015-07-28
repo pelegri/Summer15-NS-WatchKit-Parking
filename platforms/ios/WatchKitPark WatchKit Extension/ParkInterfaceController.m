@@ -9,7 +9,7 @@
 #import "ParkInterfaceController.h"
 
 @interface ParkInterfaceController()
-@property (weak, nonatomic) IBOutlet WKInterfaceLabel *timeLabel;
+@property (weak, nonatomic) IBOutlet WKInterfaceLabel *sliderLabel;
 @property (weak, nonatomic) IBOutlet WKInterfaceSlider *slider;
 @end
 

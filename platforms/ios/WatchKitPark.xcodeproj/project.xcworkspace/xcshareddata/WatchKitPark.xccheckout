@@ -7,14 +7,14 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>FE18946D-BA37-4875-BFEC-40A2F97C869D</string>
 	<key>IDESourceControlProjectName</key>
-	<string>WatchKitPark</string>
+	<string>project</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>0DE710AA392862DF77259967B7059A8C0EDDA8A1</key>
 		<string>https://github.com/antonybello/NS-WatchKit-Parking.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>platforms/ios/WatchKitPark.xcodeproj</string>
+	<string>platforms/ios/WatchKitPark.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>0DE710AA392862DF77259967B7059A8C0EDDA8A1</key>
