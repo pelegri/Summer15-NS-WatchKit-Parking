@@ -67,6 +67,17 @@ var TNSAppDelegate = (function (_super) {
         this.window.makeKeyAndVisible();
         return true;
     };
+    /*HANDLES WATCHKIT EXTENSION REQUESTS.*/
+    TNSAppDelegate.prototype.applicationHandleWatchKitExtensionRequestReply = function(app, info, reply) {
+       var data = info.objectForKey("data");
+       console.log("applicationHandleWatchKitExtensionRequestReply! " + data);
+       var result = NSMutableDictionary.alloc().init();
+       result.setObjectForKey(10, "lat"); // Would be done by CLLocationManager..
+       result.setObjectForKey(20, "long");// ^
+       console.log("App is replying...");
+       reply(result);
+   };
+
     TNSAppDelegate.prototype.applicationDidBecomeActive = function (application) {
         if (exports.onResume) {
             exports.onResume();

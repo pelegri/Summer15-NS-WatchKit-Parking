@@ -120,5 +120,6 @@ function parseDateAndCalculateTimeRemaining(timeParked, parkingDuration) {
 	parkedDateWithAddedMinutes.setHours(parkedDateWithAddedMinutes.getHours()+7);
   var diffMs = (parkedDateWithAddedMinutes - currentDate);
   var diffMins = Math.floor(diffMs / 60000);
+  if (diffMins<0) return 0;
   return diffMins;
 }

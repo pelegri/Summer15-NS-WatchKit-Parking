@@ -127,6 +127,8 @@
 		38A7DD7A1B5D775200C77619 /* ParkInterfaceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParkInterfaceController.m; sourceTree = "<group>"; };
 		38A7DD821B5EB84C00C77619 /* TimeInterfaceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimeInterfaceController.h; sourceTree = "<group>"; };
 		38A7DD831B5EB84C00C77619 /* TimeInterfaceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimeInterfaceController.m; sourceTree = "<group>"; };
+		38EFE65F1B713192007F860C /* AlertInterfaceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlertInterfaceController.h; sourceTree = "<group>"; };
+		38EFE6601B713192007F860C /* AlertInterfaceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlertInterfaceController.m; sourceTree = "<group>"; };
 		858B832E18CA111C00AB12DE /* WatchKitPark.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WatchKitPark.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		858B833118CA111C00AB12DE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		858B833518CA111C00AB12DE /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -205,6 +207,8 @@
 				38A7DD4B1B5962C800C77619 /* GlanceController.m */,
 				38A7DD4D1B5962C800C77619 /* Images.xcassets */,
 				38A7DD411B5962C800C77619 /* Supporting Files */,
+				38EFE65F1B713192007F860C /* AlertInterfaceController.h */,
+				38EFE6601B713192007F860C /* AlertInterfaceController.m */,
 			);
 			path = "WatchKitPark WatchKit Extension";
 			sourceTree = "<group>";

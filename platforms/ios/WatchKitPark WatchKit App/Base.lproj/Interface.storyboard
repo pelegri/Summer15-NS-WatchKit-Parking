@@ -37,8 +37,12 @@
             <objects>
                 <controller identifier="ParkInterfaceController" id="kEO-SK-goz" customClass="ParkInterfaceController">
                     <items>
-                        <label alignment="center" verticalAlignment="center" text="60 Minutes" numberOfLines="3" id="gcA-i9-1Aj"/>
-                        <slider width="1" alignment="center" verticalAlignment="center" accessibilityLabel="Minutes" continuous="YES" value="60" maximum="180" steps="12" id="BEF-8Z-RlS">
+                        <label height="24" alignment="left" text="You are in a 2 hour zone." textAlignment="left" numberOfLines="3" id="yGQ-2H-k3p">
+                            <fontDescription key="font" type="system" weight="medium" pointSize="11"/>
+                        </label>
+                        <separator alignment="left" verticalAlignment="center" alpha="0.29999999999999966" id="KZM-FT-uEy"/>
+                        <label height="35" alignment="center" verticalAlignment="center" text="60 Minutes" numberOfLines="3" id="gcA-i9-1Aj"/>
+                        <slider width="1" height="20" alignment="center" verticalAlignment="center" accessibilityLabel="Minutes" continuous="YES" value="60" maximum="180" steps="12" id="BEF-8Z-RlS">
                             <color key="color" red="0.23651974110000001" green="0.54704822190000002" blue="0.81960227269999997" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <action selector="sliderValueChanged:" destination="kEO-SK-goz" id="dff-nm-QNi"/>
@@ -51,6 +55,8 @@
                         </button>
                     </items>
                     <connections>
+                        <outlet property="headerLabel" destination="yGQ-2H-k3p" id="IFc-Cl-AFa"/>
+                        <outlet property="separator" destination="KZM-FT-uEy" id="Ck6-5Y-dF8"/>
                         <outlet property="slider" destination="BEF-8Z-RlS" id="CiJ-eG-amz"/>
                         <outlet property="sliderLabel" destination="gcA-i9-1Aj" id="cyv-Rn-L6y"/>
                     </connections>
@@ -72,7 +78,21 @@
                     </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="341" y="611"/>
+            <point key="canvasLocation" x="245" y="576"/>
+        </scene>
+        <!--AlertInterfaceController-->
+        <scene sceneID="c0S-go-iQZ">
+            <objects>
+                <controller identifier="AlertInterfaceController" id="Lz3-Bu-DTv" customClass="AlertInterfaceController">
+                    <items>
+                        <label alignment="center" verticalAlignment="center" text="Watch out! There is street cleaning in your area until 9 AM." textAlignment="center" numberOfLines="4" id="KIL-ze-EOd"/>
+                    </items>
+                    <connections>
+                        <outlet property="alertLabel" destination="KIL-ze-EOd" id="02G-GP-fJH"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="444" y="576"/>
         </scene>
         <!--Glance Interface Controller-->
         <scene sceneID="BOz-TT-tkC">

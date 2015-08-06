@@ -10,6 +10,8 @@
 
 @interface ParkInterfaceController()
 @property (weak, nonatomic) IBOutlet WKInterfaceLabel *sliderLabel;
+@property (weak, nonatomic) IBOutlet WKInterfaceSeparator *separator;
+@property (weak, nonatomic) IBOutlet WKInterfaceLabel *headerLabel;
 @property (weak, nonatomic) IBOutlet WKInterfaceSlider *slider;
 @end
 

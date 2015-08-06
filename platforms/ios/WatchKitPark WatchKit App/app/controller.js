@@ -7,15 +7,33 @@
  */
 
 var SERVER_URL = ''; // <== ENTER SERVER URL HERE
-
 var minutesRemaining, parkingDuration;
-var userDefaults = NSUserDefaults.standardUserDefaults();
+var userDefaults = NSUserDefaults.standardUserDefaults(); // Create unique user ID.
 setUUIDString(userDefaults);
 var uuidString = getUUIDString(userDefaults);
+
+/* Callback for when phone sends data to watch. */
+var replyCallback = function(info, error) {
+  console.log("info: " + info);
+  console.log("error: " + error);
+  var lat = 0;
+  var long = 0;
+  if (info) {
+    var lat = info.objectForKey("lat");
+    var long = info.objectForKey("long");
+  }
+  console.log("App replied! " + lat + " x " + long);
+}
+exports.replyCallback = replyCallback;
 
 var InterfaceController = WKInterfaceController.extend({
   awakeWithContext: function(context) {
     this.super.awakeWithContext(context);
+      // Sets parameters to open phone.
+      var userInfo = NSMutableDictionary.alloc().init();
+      userInfo.setObjectForKey("My data", "data");
+      console.log("wake parent app...");
+      WKInterfaceController.openParentApplicationReply(userInfo, replyCallback);
   },
   willActivate: function() {
     this.super.willActivate();
@@ -25,6 +43,13 @@ var InterfaceController = WKInterfaceController.extend({
   },
   timeButtonTap: function() {
     var controller = this;
+
+    /*
+    * Block of code would be called if location is within a danger zone.
+    * this.pushControllerWithNameContext("AlertInterfaceController", null);
+    */
+
+    // Get info from the server for current parking time.
     var requestParams = setURLParamsWithEnding('getinfo');
     makeRequest('getinfo', requestParams, controller);
   },
@@ -45,10 +70,13 @@ var InterfaceController = WKInterfaceController.extend({
   }
 });
 
+/*
+* The interface where user sets the parking time.
+*/
 var ParkInterfaceController = WKInterfaceController.extend({
   awakeWithContext: function(context) {
     this.super.awakeWithContext(context);
-    parkingDuration = this._slider.value;
+    parkingDuration = this._slider.value; // Initial parking duration
   },
   willActivate: function() {
     this.super.willActivate();
@@ -57,7 +85,7 @@ var ParkInterfaceController = WKInterfaceController.extend({
     this.super.didDeactivate();
   },
   "sliderValueChanged:": function(value) {
-    parkingDuration = value;
+    parkingDuration = value; // Save how long the user parks for
     this._sliderLabel.setText(value + " Minutes");
   },
   slider: function() {
@@ -66,6 +94,19 @@ var ParkInterfaceController = WKInterfaceController.extend({
   "setSlider:": function(value) {
     this._slider = value;
   },
+  headerLabel: function() {
+    return this._headerLabel;
+  },
+  "setHeaderLabel:": function(value) {
+    this._headerLabel = value;
+  },
+  separator: function() {
+    return this._separator;
+  },
+  "setSeparator:": function(value) {
+    this._separator = value;
+  },
+  // User taps "park", sends the current time, userID, and parking duration to server
   parkTapped: function() {
     var controller = this;
     var requestParams = setURLParamsWithEnding('adduser');
@@ -99,6 +140,14 @@ var ParkInterfaceController = WKInterfaceController.extend({
       returns: interop.types.id,
       params: []
     },
+    headerLabel: {
+      returns: interop.types.id,
+      params: []
+    },
+    separator: {
+      returns: interop.types.id,
+      params: []
+    },
     "setSlider:": {
       returns: interop.types.void,
       params: [interop.types.id]
@@ -106,10 +155,21 @@ var ParkInterfaceController = WKInterfaceController.extend({
     "setSliderLabel:": {
       returns: interop.types.void,
       params: [interop.types.id]
+    },
+    "setHeaderLabel:": {
+      returns: interop.types.void,
+      params: [interop.types.id]
+    },
+    "setSeparator:": {
+      returns: interop.types.void,
+      params: [interop.types.id]
     }
   }
 });
 
+/*
+* Interface controller to check remaining time.
+*/
 var TimeInterfaceController = WKInterfaceController.extend({
   awakeWithContext: function(context) {
     this.super.awakeWithContext(context);
@@ -145,6 +205,40 @@ var TimeInterfaceController = WKInterfaceController.extend({
   }
 });
 
+/*
+* Interface controller that would pop up if user is in a special zone.
+*/
+var AlertInterfaceController = WKInterfaceController.extend({
+  awakeWithContext: function(context) {
+    this.super.awakeWithContext(context);
+  },
+  willActivate: function() {
+    this.super.willActivate();
+  },
+  didDeactivate: function() {
+    this.super.didDeactivate();
+  },
+  alertLabel: function() {
+    return this._timeLabel;
+  },
+  "setAlertLabel:": function(value) {
+    this._timeLabel = value;
+  }
+}, {
+  name: "AlertInterfaceController",
+  exposedMethods: {
+    timeLabel: {
+      returns: interop.types.id,
+      params: []
+    },
+    "setTimeLabel:": {
+      returns: interop.types.void,
+      params: [interop.types.id]
+    }
+  }
+});
+
+// Unused...
 var NotificationController = WKUserNotificationInterfaceController.extend({
   willActivate: function() {
     this.super.willActivate();
@@ -176,6 +270,11 @@ var GlanceController = WKInterfaceController.extend({
 });
 
 
+/*
+ * Sets the request parameters based on the button user clicks. Buttons are either
+ * getinfo or adduser. Makes a request object that is later passed on to the
+ * native iOS NSURLSession object.
+ */
 function setURLParamsWithEnding(ending) {
   var response, error;
   var requestData = NSMutableDictionary.alloc().init();
@@ -193,6 +292,10 @@ function setURLParamsWithEnding(ending) {
   return request;
 }
 
+/*
+ * Using the request parameters, makes an http request to modulus server either
+ * placing information into the DB or requesting time remaining, based on ending.
+ */
 function makeRequest(ending, requestParams, controller) {
   var response, error;
   var sessionConfig = NSURLSessionConfiguration.defaultSessionConfiguration();
@@ -209,6 +312,12 @@ function makeRequest(ending, requestParams, controller) {
   dataTask.resume();
 }
 
+/*
+ * Handles the http request based on what kind it was. If user is requesting
+ * information, it pushes the time to the time interface controller. Otherwise,
+ * It resets the parking duration to the time remaining, and indicates a
+ * successful request.
+ */
 function handleResponseBasedOnEnding(ending, data, controller) {
   if(ending == "getinfo") {
     minutesRemaining = NSString.alloc().initWithDataEncoding(data, NSUTF8StringEncoding);
@@ -221,6 +330,9 @@ function handleResponseBasedOnEnding(ending, data, controller) {
   }
 }
 
+/*
+ * Creates a date object to be sent to the server.
+ */
 function initializeDateString() {
   var date = NSDate.alloc().init();
   var dateFormatter = NSDateFormatter.alloc().init();
@@ -228,6 +340,10 @@ function initializeDateString() {
   return dateFormatter.stringFromDate(date);
 }
 
+/*
+ * Sets the unique userID if it's a new user. Persists on the device as it is
+ * saved in NSUserDefaults.
+ */
 function setUUIDString(userDefaults) {
   if (!userDefaults.stringForKey("AUTH")) {
     var uuidRef = CFUUIDCreate(kCFAllocatorDefault);
@@ -238,6 +354,9 @@ function setUUIDString(userDefaults) {
   }
 }
 
+/*
+ * Gets the unique UUID of the user.
+ */
 function getUUIDString(userDefaults) {
   return userDefaults.stringForKey("AUTH");
 }
